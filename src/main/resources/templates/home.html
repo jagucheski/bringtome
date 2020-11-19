@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head th:replace="~{templateBase :: head}"></head>
+	<body>
+		<div th:replace="~{templateBase :: cabecalho}"></div> 
+	
+		<div class="container" style="min-height: 750px;">
+			<div th:replace="~{templateBase :: tituloPagina('Últimos Pedidos')}"></div>
+		
+			<div class="card  mb-3" th:each="pedido : ${pedidos}">
+				<div class="card-header alert alert-dark" th:text="${pedido.nomeProduto}"></div>
+	
+				<div class="card-body">
+					<div class="row">
+						<div class="col-12 col-sm-8 mb-3">
+							<div class="row  mb-2">
+								<div class="col-md-4"> Valor: <span th:if="${pedido.valorNegociado} != null" th:text="${#numbers.formatCurrency(pedido.valorNegociado)}"></span> </div>
+								<div class="col-md-8"> Data da entrega: <span th:if="${pedido.dataEntrega} != null" th:text="${#temporals.format(pedido.dataEntrega,'dd/MM/yyyy')}"></span></div>
+							</div>
+	
+							<div class="row  mb-2">
+								<div class="col-md-3">Produto:</div>
+								<div class="col-md-9">
+									<input class="form-control" th:value="${pedido.urlProduto}"
+										value="url do produto" />
+								</div>
+							</div>
+	
+							<div class="row  mb-2">
+								<div class="col-md-3">Descrição:</div>
+								<div class="col-md-9">
+									<textarea class="form-control" th:text="${pedido.descricao}"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-sm-4">
+							<div>
+								<img class="img-thumbnail" th:src="${pedido.urlImagem}" src="" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+	<footer th:replace="~{templateBase :: rodape}"></footer>
+</html>

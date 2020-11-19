@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head th:replace="~{templateBase :: head}"></head>
+	<body onload="onLoad()">
+		<div th:replace="~{templateBase :: cabecalho}"></div> 
+	
+		<div class="container" id="ofertas" style="min-height: 750px;">
+			<div th:replace="~{templateBase :: tituloPagina('Faça sua Oferta')}"></div>
+		
+			<div class="card  mb-3" v-for="pedido in pedidos">
+				<div class="card-header alert alert-warning">{{pedido.nomeProduto}}</div>
+	
+				<div class="card-body">
+					<div class="row">
+						<div class="col-12 col-sm-8 mb-3">
+							<div class="row  mb-2">
+								<div class="col-md-3">Produto:</div>
+								<div class="col-md-9">
+									<a v-bind:href="pedido.urlProduto" target="_blank">{{pedido.nomeProduto}}</a>
+								</div>
+							</div>
+	
+							<div class="row  mb-2">
+								<div class="col-md-3">Descrição:</div>
+								<div class="col-md-9">
+									<textarea disabled="disabled" class="form-control form-control-sm">{{pedido.descricao}}</textarea>
+								</div>
+							</div>
+							
+							<div class="row  mb-2">
+								<div class="col-md-3"> Valor: 
+									<input v-model="pedido.valorNegociado" v-bind:class="{'is-invalid':pedido.erros.valorNegociado !== ''}"  class="form-control form-control-sm" />
+									<div class="invalid-feedback">{{pedido.erros.valorNegociado}}</div>
+								</div>
+								<div class="col-md-9"> Data da entrega: 
+									<input v-model="pedido.dataEntrega" v-bind:class="{'is-invalid':pedido.erros.dataEntrega !== ''}"  class="form-control form-control-sm" />
+									<div class="invalid-feedback">{{pedido.erros.dataEntrega}}</div>
+								</div>
+							</div>
+							
+							<div class="row  mb-2">
+								<div class="col-md-3">Comentário:</div>
+								<div class="col-md-9">
+									<textarea class="form-control form-control-sm" v-model="pedido.comentario"></textarea>
+								</div>
+							</div>
+							<button v-if="pedido.ofertaEnviada" class="btn btn-success">Oferta Enviada</button>
+							<button v-else v-on:click="enviarOferta(pedido)" class="btn btn-primary">Enviar Oferta</button>
+						</div>
+						<div class="col-12 col-sm-4">
+							<div>
+								<img class="img-thumbnail" v-bind:src="pedido.urlImagem"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			function onLoad(){
+				var app = new Vue({
+				  el: '#ofertas',
+				  data: {
+				      pedidos: []
+				   },
+				   mounted () {
+					    axios
+					      .get('http://localhost:8080/api/pedidos/aguardando')
+					      .then(response => {
+					    	 //forEach para adicionar campos de validação e mensagens de retorno ao pedido
+					    	  response.data.forEach(pedido => {
+					    		 // atributo ofertaEnvidada utilizado na lógica para mostrar mensagem de envio
+					    		 pedido.ofertaEnviada = false;
+					    		 // foi criado o atributo erros para captura dos erros de validação 
+					    		  pedido.erros = {
+					    			valorNegociado: '',
+					    			dataEntrega: ''
+					    		 	}
+					    		 })
+					    	  this.pedidos = response.data
+					    	  })
+				   },
+				   methods: {
+					   enviarOferta: function(pedido){
+						   pedido.erros = {
+			    				valorNegociado: '',
+			    				dataEntrega: ''
+			    		    };
+						   
+						   axios
+						      .post('http://localhost:8080/api/ofertas',{
+						    		pedidoId: pedido.id,
+						    		valorNegociado: pedido.valorNegociado,
+						    		dataEntrega: pedido.dataEntrega,
+						    		comentario: pedido.comentario
+						      })
+						      //utilizamos o atributo ofertaEnvidada para mostrar mensagem de envio
+						      .then(response => pedido.ofertaEnviada = true)
+						      //captura de erros de validacao
+						      .catch(error =>{
+						    	  //for para vincular os erros aos campos do pedido
+						    	  error.response.data.errors.forEach(error => {
+						    		  pedido.erros[error.field] = error.defaultMessage;
+						    	  })
+						      })
+					   }
+				   }
+				 });
+			}
+		
+		
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	</body>
+	
+	<footer th:replace="~{templateBase :: rodape}"></footer>
+</html>
