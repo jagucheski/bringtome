@@ -24,6 +24,14 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 	@Cacheable("pedidosID")
 	List<Pedido> findByStatusOrderByIdDesc(StatusPedido status, Pageable page);
 
+	/**Busca lista de pedidos por status, diferente de user-username e com paginacao*/
+	@Cacheable("pedidosApiID")
+	List<Pedido> findByStatusAndUserUsernameNotOrderByIdDesc(StatusPedido status, String username, Pageable page);
+	
+	/**Busca lista de pedidos por status, diferente de user-nome e com paginacao*/
+	@Cacheable("pedidosApiID")
+	List<Pedido> findByStatusAndUserNomeNotOrderByIdDesc(StatusPedido status, String nome, Pageable page);
+	
 	List<Pedido> findByStatusAndUser(StatusPedido status, User user);
 	
 	@Query("Select p from Pedido p join p.user u where u.username = :username")

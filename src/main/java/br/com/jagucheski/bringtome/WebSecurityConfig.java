@@ -27,7 +27,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 			.antMatchers("/home/**").permitAll()
+			.antMatchers("/usuario/formulario").hasRole("ADM")
+			.antMatchers("/usuario/atualiza").hasRole("ADM")
+			.antMatchers("/usuario/novo").hasRole("ADM")
+			.antMatchers("/usuario/excluir").hasRole("ADM")
+			
 			.anyRequest().authenticated()
+			.and().exceptionHandling().accessDeniedPage("/403")
 			.and() 
 				.formLogin(form -> form
 		            .loginPage("/login")

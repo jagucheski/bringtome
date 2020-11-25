@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,8 @@ public class PedidosRest {
 	
 	@GetMapping("aguardando") 
 	public List<Pedido> getPedidosAguardando(){
-		return pedidoRepository.findByStatusOrderByIdDesc(StatusPedido.AGUARDANDO, PageRequest.of(0, 10));
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		return pedidoRepository.findByStatusAndUserUsernameNotOrderByIdDesc(StatusPedido.AGUARDANDO, username, PageRequest.of(0, 10));
 	}
 
 }

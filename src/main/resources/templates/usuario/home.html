@@ -34,7 +34,7 @@
 								<div class="col-md-8"> Data da entrega: <span th:if="${pedido.dataEntrega} != null" th:text="${#temporals.format(pedido.dataEntrega,'dd/MM/yyyy')}"></span></div>
 							</div>
 	
-							<div class="row  mb-2">
+							<div class="row mb-2">
 								<div class="col-md-3">Produto:</div>
 								<div class="col-md-9">
 									<input class="form-control" th:value="${pedido.urlProduto}"
@@ -42,19 +42,24 @@
 								</div>
 							</div>
 	
-							<div class="row  mb-2">
+							<div class="row mb-2">
 								<div class="col-md-3">Descrição:</div>
 								<div class="col-md-9">
-									<textarea class="form-control" th:text="${pedido.descricao}"></textarea>
+									<textarea class="form-control" th:text="${pedido.descricao}" maxlength="255"></textarea>
 								</div>
 							</div>
 						</div>
 						<div class="col-12 col-sm-4">
 							<div>
-								<img class="img-thumbnail" th:src="${pedido.urlImagem}" src="" />
+								<img class="img-thumbnail" th:src="${pedido.urlImagem}" style="max-height: 250px;" />
 							</div>
 						</div>
 					</div>
+					<th:block th:switch="${pedido.status.name()}">
+						<a th:case="'AGUARDANDO'" th:href="@{/oferta/visualizaOfertasPedido/{pedidoId} (pedidoId=${pedido.id})}" class="btn btn-outline-warning" role="button" aria-pressed="true" title="Visualizar Ofertas">Visualizar Ofertas</a>
+						<a th:case="'APROVADO'" th:href="@{/oferta/visualizaOfertasPedido/{pedidoId} (pedidoId=${pedido.id})}" class="btn btn-outline-success" role="button" aria-pressed="true" title="Visualizar Ofertas">Visualizar Ofertas</a>
+						<a th:case="'ENTREGUE'" th:href="@{/oferta/visualizaOfertasPedido/{pedidoId} (pedidoId=${pedido.id})}" class="btn btn-outline-secondary" role="button" aria-pressed="true" title="Visualizar Ofertas">Visualizar Ofertas</a>
+					</th:block>					
 				</div>
 			</div>
 		</div>

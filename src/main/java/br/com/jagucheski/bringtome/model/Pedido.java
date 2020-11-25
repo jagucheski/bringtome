@@ -2,6 +2,7 @@ package br.com.jagucheski.bringtome.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -43,9 +44,9 @@ public class Pedido {
 	@JsonIgnore
 	private User user;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", fetch = FetchType.EAGER)
 	@JsonIgnore
-	private List<Oferta> ofertas;
+	private List<Oferta> ofertas = new ArrayList<Oferta>();
 
 	public Long getId() {
 		return id;

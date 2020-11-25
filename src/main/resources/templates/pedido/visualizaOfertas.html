@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head th:replace="~{templateBase :: head}"></head>
+
+<body>
+	<div th:replace="~{templateBase :: cabecalho}"></div>
+
+	<div class="container" style="min-height: 750px;">
+		<div th:replace="~{templateBase :: tituloPagina('Visualizar Ofertas')}"></div>
+		
+		
+		<div class="card  mb-3">
+			<th:block th:switch="${pedido.status.name()}">
+				<div th:case="'AGUARDANDO'"  class="card-header alert alert-warning" th:text="${pedido.nomeProduto}"></div>
+				<div th:case="'APROVADO'"  class="card-header alert alert-success" th:text="${pedido.nomeProduto}"></div>
+				<div th:case="'ENTREGUE'"  class="card-header alert alert-dark" th:text="${pedido.nomeProduto}"></div>
+			</th:block>
+
+			<div class="card-body">
+				<div class="row">
+					<div class="col-12 col-sm-8 mb-3">
+						<div class="row mb-2">
+							<div class="col-md-3">URL Produto:</div>
+							<div class="col-md-9"> 	
+								<input class="form-control" disabled="disabled" th:value="${pedido.urlProduto}"/>
+							</div>
+						</div>
+
+						<div class="row mb-2">
+							<div class="col-md-3">Descrição:</div>
+							<div class="col-md-9">
+								<textarea class="form-control" disabled="disabled" th:text="${pedido.descricao}"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-sm-4">
+						<div>
+							<img class="img-thumbnail" style="max-height: 250px;" th:src="${pedido.urlImagem}" src="" />
+						</div>
+					</div>
+				</div>							
+			</div>
+		</div>
+		
+		<table class="table table-sm table-hover table-bordered">
+			<caption>Lista de ofertas</caption>
+			<thead class="thead-light">
+				<tr>
+					<th scope="col" style="text-align: center;">Data Entrega</th>
+					<th scope="col" style="text-align: center;">Valor</th>
+					<th scope="col" style="text-align: center;">Comentário</th>
+				</tr>
+			</thead>
+			<tr style="text-align: center;" th:each="oferta : ${ofertas}">
+				<td style="text-align: center;"><span th:if="${oferta.dataEntrega} != null" th:text="${#temporals.format(oferta.dataEntrega,'dd/MM/yyyy')}"></span></td>
+				<td style="text-align: center;"><span th:if="${oferta.valor} != null" th:text="${#numbers.formatCurrency(oferta.valor)}"></span></td>
+				<td style="text-align: center;" th:text="${oferta.comentario}"></span></td>				
+			</tr>
+		</table>
+		 <div th:if="${ofertaMessage}" id="div1" class="alert alert-success info alert-dismissible fade show ml-2 mr-2" role="alert">
+			<span th:text="${mensagem}"></span>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    	<span aria-hidden="true">&times;</span>
+		 	</button>
+		</div>
+
+	</div>
+</body>
+
+<footer th:replace="~{templateBase :: rodape}"></footer>
+</html>

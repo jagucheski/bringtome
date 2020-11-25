@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head th:replace="~{templateBase :: head}"></head>
+	<body>
+		<div th:replace="~{templateBase :: cabecalho}"></div> 
+	
+		<div class="container"  style="min-height: 750px;">
+			<div th:replace="~{templateBase :: tituloPagina('Novo Usuário')}"></div> 
+				
+			<div class="card">
+				
+				<form th:object="${requisicaoNovoUsuario}" class="card-body" th:action="@{/usuario/novo}" method="POST">
+			        <div class="form-group">
+			            <label for="userName">Usuário</label>
+			            <input th:field="*{userName}" th:errorClass="is-invalid" class="form-control" placeholder="User Name"/>
+			            <small class="form-text text-muted">Informe o User Name do usuário.</small>
+			            <div class="invalid-feedback" th:errors="*{userName}"></div>
+			        </div>
+			        <div class="form-group">
+			            <label for="nome">Nome</label>
+			            <input th:field="*{nome}" th:errorClass="is-invalid" class="form-control" placeholder="Nome"/>
+			            <small class="form-text text-muted">Informe o Nome do usuário.</small>
+			            <div class="invalid-feedback" th:errors="*{nome}"></div>
+			        </div>
+			        <div class="form-group">
+			            <label for="urlProduto">Senha</label>
+			            <input type="password" th:field="*{password}" th:errorClass="is-invalid" class="form-control" placeholder="Senha"/>
+			            <small class="form-text text-muted">Informe a Senha do usuário.</small>
+			            <div class="invalid-feedback" th:errors="*{password}"></div>
+			        </div>
+			        <div class="form-group">
+			            <label for="urlImagem">Ativo</label>
+			            <input type="checkbox" th:field="*{enabled}" th:errorClass="is-invalid" placeholder="Ativo"/>
+ 			            <small class="form-text text-muted">Informe se o usuário esta ativo/inativo.</small>
+			            <div class="invalid-feedback" th:errors="*{enabled}"></div>
+			        </div>
+			        <button class="btn btn-primary" type="submit">Cadastrar</button>
+			        <a th:href="@{/usuario/pedido}"><button type="button" class="btn btn-outline-secondary my-2 my-sm-0">Home</button></a>
+			    </form>
+			  
+			    <div th:if="${usuarioCad}" id="div1" class="alert alert-success info alert-dismissible fade show ml-2 mr-2" role="alert">
+					<span th:text="${mensagem}"></span>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    	<span aria-hidden="true">&times;</span>
+				 	</button>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+	<footer th:replace="~{templateBase :: rodape}"></footer>
+</html>

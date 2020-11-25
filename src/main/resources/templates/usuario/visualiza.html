@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head th:replace="~{templateBase :: head}"></head>
+
+<body>
+	<div th:replace="~{templateBase :: cabecalho}"></div>
+
+	<div class="container" style="min-height: 750px;">
+		<div th:replace="~{templateBase :: tituloPagina('Visualizar Usuários')}"></div>
+
+
+		<table class="table table-sm table-hover table-bordered">
+			<caption>Lista de usuários</caption>
+			<thead class="thead-light">
+				<tr>
+					<th scope="col" style="text-align: center;">User Name</th>
+					<th scope="col" style="text-align: center;">Nome</th>
+					<th scope="col" style="text-align: center;">Ativo</th>
+					<th scope="col" style="text-align: center;">Ações</th>
+				</tr>
+			</thead>
+			<tr style="text-align: center;" th:each="usuario : ${usuarios}">
+				<td style="text-align: center;" th:text="${usuario.username}"></td>
+				<td style="text-align: center;" th:text="${usuario.nome}"></td>
+				<td style="text-align: center;" th:text="${usuario.enabled == true ? 'Sim' : 'Não'}"></td>
+				<td style="text-align: center;" >
+					<a th:href="@{/usuario/atualiza/{username}(username=${usuario.username})}" ><i class="far fa-edit" title="Atualizar"></i></a>
+					<a th:href="@{/usuario/excluir/{username}(username=${usuario.username})}" onclick="return confirm('Você tem certeza que desea excluir este usuário?');"><i class="far fa-trash-alt" style="margin-left: 5px;" title="Excluir"></i></a>
+				</td>
+			</tr>
+		</table>
+		 <div th:if="${usuarioMessage}" id="div1" class="alert alert-success info alert-dismissible fade show ml-2 mr-2" role="alert">
+			<span th:text="${mensagem}"></span>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    	<span aria-hidden="true">&times;</span>
+		 	</button>
+		</div>
+
+	</div>
+</body>
+
+<footer th:replace="~{templateBase :: rodape}"></footer>
+</html>

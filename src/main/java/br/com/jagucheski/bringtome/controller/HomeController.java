@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.jagucheski.bringtome.model.Pedido;
@@ -27,4 +28,16 @@ public class HomeController {
 		model.addAttribute("pedidos", pedidos);
 		return "/home";
 	}
+	
+	/**
+	 * Muda a paginação da lista de pedidos 
+	 * */
+	@GetMapping("findPage/{page}")
+	public String findPage(@PathVariable("page") int page , Model model, Principal principal) {
+		List<Pedido> pedidos = pedidoRepository.findByStatusOrderByIdDesc(StatusPedido.ENTREGUE, PageRequest.of(page, 10));
+		model.addAttribute("pedidos", pedidos);
+		return "/home";
+	}
+	
+	
 }

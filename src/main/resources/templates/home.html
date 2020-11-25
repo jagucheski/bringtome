@@ -35,12 +35,19 @@
 						</div>
 						<div class="col-12 col-sm-4">
 							<div>
-								<img class="img-thumbnail" th:src="${pedido.urlImagem}" src="" />
+								<img class="img-thumbnail" th:src="${pedido.urlImagem}" style="max-height: 250px;" />
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<nav aria-label="Page navigation example">
+			  <ul class="pagination justify-content-center">
+			    <li class="page-item"><a class="page-link" th:href="@{/home/findPage/{page}(page=0)}">1</a></li>
+			    <li class="page-item"><a class="page-link" th:href="@{/home/findPage/{page}(page=1)}">2</a></li>
+			    <li class="page-item"><a class="page-link" th:href="@{/home/findPage/{page}(page=2)}">3</a></li>
+			  </ul>
+			</nav>
 		</div>
 	</body>
 	

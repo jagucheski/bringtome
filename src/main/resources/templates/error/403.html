@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head th:replace="~{templateBase :: head}"></head>
+	<body>
+		<div>
+		     <div class="row logo-container p-3 d-flex justify-content-between">
+			     <span class="logo ml-2">BringToMe</span>
+		     </div>
+		</div> 
+		
+		<div class="row">
+	       	<div class="col">
+			   	<nav class="nav">
+				  <a class="nav-link" th:href="@{/home}">Home</a>
+				</nav>
+	      	</div>
+	     </div>
+	
+		<div class="container" style="min-height: 750px;">
+			<div  class="jumbotron mt-5">
+			    <h1 class="display-4">Erro 403 - Acesso Negado</h1>
+			</div>
+		</div>
+	</body>
+	
+	<footer th:replace="~{templateBase :: rodape}"></footer>
+</html>
