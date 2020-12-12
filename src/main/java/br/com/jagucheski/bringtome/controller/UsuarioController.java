@@ -95,7 +95,7 @@ public class UsuarioController {
 		userRepository.deleteById(username);
 		List<User> usuarios = userRepository.findAll();
 		model.addAttribute("usuarioMessage", true);
-		model.addAttribute("mensagem", "Usuário cadastrado com sucesso!");
+		model.addAttribute("mensagem", "Usuário excluído com sucesso!");
 		model.addAttribute("usuarios", usuarios);
 		return "usuario/visualiza";
 	}
