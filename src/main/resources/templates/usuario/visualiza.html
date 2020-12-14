@@ -25,7 +25,7 @@
 				<td style="text-align: center;" th:text="${usuario.enabled == true ? 'Sim' : 'Não'}"></td>
 				<td style="text-align: center;" >
 					<a th:href="@{/usuario/atualiza/{username}(username=${usuario.username})}" ><i class="far fa-edit" title="Atualizar"></i></a>
-					<a th:href="@{/usuario/excluir/{username}(username=${usuario.username})}" onclick="return confirm('Você tem certeza que desea excluir este usuário?');"><i class="far fa-trash-alt" style="margin-left: 5px;" title="Excluir"></i></a>
+					<a th:href="@{/usuario/excluir/{username}(username=${usuario.username})}" onclick="return confirm('Você tem certeza que deseja excluir este usuário?');"><i class="far fa-trash-alt" style="margin-left: 5px;" title="Excluir"></i></a>
 				</td>
 			</tr>
 		</table>
